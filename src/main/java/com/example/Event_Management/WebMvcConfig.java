@@ -22,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:5173").allowedMethods("*");
+                registry.addMapping("/**").allowedOrigins("http://localhost:5173,https://eventmanagement-production-2b1d.up.railway.app").allowedMethods("*");
             }
         };
     }
