@@ -78,7 +78,8 @@ public class RegisterService {
     public RegisterUpdateDto delete(long id) {
         RegisterEntity detail=registerRepository.findById(id).orElseThrow(()->new RuntimeException("Registerid is not found"));
         detail.setStatus(AppUtils.Status.CANCELLED);
-        return modelMapper.map(detail,RegisterUpdateDto.class);
+        RegisterEntity saved=registerRepository.save(detail);
+        return modelMapper.map(saved,RegisterUpdateDto.class);
     }
 
     public List<RegisteredEventUserDto> findDetailsByEvent(String name) {
