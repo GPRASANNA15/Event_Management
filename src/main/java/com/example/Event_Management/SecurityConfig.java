@@ -50,7 +50,7 @@ public class SecurityConfig {
                             "/swagger-ui/**",
                             "/swagger-ui.html"
                     ).permitAll();
-                      auth.requestMatchers(HttpMethod.GET,"/","/actuator/**");
+                      auth.requestMatchers(HttpMethod.GET,"/","/actuator/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session ->
