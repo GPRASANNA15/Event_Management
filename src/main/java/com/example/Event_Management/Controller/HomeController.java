@@ -1,4 +1,4 @@
-package com.example.Event_Management;
+package com.example.Event_Management.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
