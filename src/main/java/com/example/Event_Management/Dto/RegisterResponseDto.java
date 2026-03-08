@@ -4,7 +4,7 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
-public class RegisterResponseDto {
+public class RegisterResponseDto {  // used as response
     private Long id;
     private String eventName;
 

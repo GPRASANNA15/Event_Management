@@ -3,7 +3,7 @@ package com.example.Event_Management.Dto;
 import com.example.Event_Management.Utils.AppUtils;
 
 public class
-RegisteredDetailDto {
+RegisteredDetailDto { // used as response
 
     private Long registeredId;
     private String userName;

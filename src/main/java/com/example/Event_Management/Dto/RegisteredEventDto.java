@@ -2,7 +2,7 @@ package com.example.Event_Management.Dto;
 
 import java.time.LocalDateTime;
 
-public class RegisteredEventDto {
+public class RegisteredEventDto { // used as response
     private Long registrationId;
 
     private String eventTitle;

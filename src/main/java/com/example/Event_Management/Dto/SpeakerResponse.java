@@ -2,7 +2,7 @@ package com.example.Event_Management.Dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class SpeakerResponse {
+public class SpeakerResponse {// used as response
     private String name;
     private String designation;
 

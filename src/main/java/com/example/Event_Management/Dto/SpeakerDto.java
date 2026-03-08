@@ -1,17 +1,27 @@
 package com.example.Event_Management.Dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SpeakerDto {
     private Long id;
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+    @NotBlank(message = "Designation cannot be blank")
     private String designation;
+    @NotNull(message = "Contact Number cannot be null")
     private Long contactNumber;
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "give valid email")
     private String email;
 
     private MultipartFile profile;
-    private String profileUrl;
+    private String profileUrl;// used to return profile
+    @NotBlank(message = "description cannot be blank")
     private String description;
+    @NotNull(message = "event ID cannot be null")
     private Long eventId;
 
     public Long getEventId() {

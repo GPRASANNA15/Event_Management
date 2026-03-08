@@ -9,18 +9,19 @@ public class EventDto {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Title cannot be empty")
     private String title;
-    @NotBlank
+    @NotBlank(message = "Description cannot be blank")
     private String description;
-    @NotBlank
+    @NotBlank(message = "date cannot be empty")
     private String date;
-    @NotBlank
+    @NotBlank(message = "time cannot be empty")
     private String time;
-    @NotBlank
+    @NotBlank(message = "Venue cannot be empty")
     private String venue;
-
+    @NotNull(message ="Total count Cannot be null")
     private int totalCount;
+    @NotBlank(message = "Category cannot be empty")
     private String category;
 
     public Long getId() {

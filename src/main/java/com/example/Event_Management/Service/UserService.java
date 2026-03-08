@@ -4,6 +4,8 @@ import com.example.Event_Management.Dto.AuthDto;
 import com.example.Event_Management.Dto.AuthResponse;
 import com.example.Event_Management.Dto.UserDto;
 import com.example.Event_Management.Entity.UserEntity;
+import com.example.Event_Management.Exception.EmailNotFoundException;
+import com.example.Event_Management.Exception.ResourceNotFoundException;
 import com.example.Event_Management.Repository.UserRepository;
 import com.example.Event_Management.UpdateDto.UserUpdateDto;
 import com.example.Event_Management.Utils.JwtUtil;
@@ -46,12 +48,12 @@ public class UserService {
     }
 
     public UserDto findByUserId(long id) {
-        UserEntity user=userRepository.findById(id).orElseThrow(()->new RuntimeException("User Not found"));
+        UserEntity user=userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("UserService","UserID",id,"USERID_NOT_FOUND"));
         return modelMapper.map(user, UserDto.class);
     }
 
     public UserUpdateDto update(long id, UserUpdateDto dto) {
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Invalid User Id"));
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("UserService","UserID",id,"USERID_NOT_FOUND"));
         if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
@@ -69,7 +71,7 @@ public class UserService {
     }
 
     public void delete(long id) {
-            UserEntity user=userRepository.findById(id).orElseThrow(()->new RuntimeException("User Not Found"));
+            UserEntity user=userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("UserService","UserID",id,"USERID_NOT_FOUND"));
              userRepository.deleteById(id);
     }
 
@@ -84,7 +86,7 @@ public class UserService {
 
         UserEntity user = userRepository.findByEmail(
                 dto.getEmail()
-        ).orElseThrow(() -> new RuntimeException("User not found"));
+        ).orElseThrow(() -> new EmailNotFoundException("UserSerivce","Email",dto.getEmail(),"USER_NOT_FOUND"));
 
 
         String token = jwtUtil.generateToken(user.getEmail());

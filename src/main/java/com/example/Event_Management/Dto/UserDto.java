@@ -7,17 +7,17 @@ import jakarta.validation.constraints.Pattern;
 
 public class UserDto {
     public Long id;
-    @NotBlank
+    @NotBlank(message ="UserName should not be blank")
     public String userName;
-    @NotBlank
+    @NotBlank(message = "password should not be blank")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",message = "Password must be at least 8 characters long and contain letters, digits, and special characters")
     public String password;
-     @NotBlank
+     @NotBlank(message = "Email should not be blank")
     public String email;
-     @NotNull
+     @NotNull(message = "Role Must be Specified")
     public AppUtils.Roles role;
 
-     @NotNull
+     @NotNull(message = "Contact Number cannot be null")
     public Long contactNumber;
 
     public Long getContactNumber() {

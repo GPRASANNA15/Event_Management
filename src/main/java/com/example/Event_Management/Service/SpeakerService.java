@@ -4,6 +4,7 @@ import com.example.Event_Management.Dto.SpeakerDto;
 import com.example.Event_Management.Dto.SpeakerResponse;
 import com.example.Event_Management.Entity.EventEntity;
 import com.example.Event_Management.Entity.SpeakerEntity;
+import com.example.Event_Management.Exception.ResourceNotFoundException;
 import com.example.Event_Management.Repository.EventRepository;
 import com.example.Event_Management.Repository.SpeakerRepository;
 import com.example.Event_Management.UpdateDto.SpeakerUpdateDto;
@@ -24,7 +25,7 @@ public class SpeakerService {
     @Autowired
     private EventRepository eventRepository;
     public SpeakerDto addSpeaker(SpeakerDto dto) throws IOException {
-        EventEntity event=eventRepository.findById(dto.getEventId()).orElseThrow(()->new RuntimeException("Event Not Found"));
+        EventEntity event=eventRepository.findById(dto.getEventId()).orElseThrow(()->new ResourceNotFoundException("SpeakerService","EventID",dto.getEventId(),"EVENT_ID_NOT_FOUND"));
                 SpeakerEntity speakerEntity=new SpeakerEntity();
         speakerEntity.setDescription(dto.getDescription());
         speakerEntity.setEmail(dto.getEmail());
@@ -51,12 +52,12 @@ public class SpeakerService {
     }
 
     public SpeakerDto findBySpeakerId(long id) {
-        SpeakerEntity speakerEntity=speakerRepository.findById(id).orElseThrow(()->new RuntimeException("Speaker ID not found"));
+        SpeakerEntity speakerEntity=speakerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("SpeakerService","SpeakerID",id,"SPEAKER_NOT_FOUND"));
         return modelMapper.map(speakerEntity, SpeakerDto.class);
     }
 
     public SpeakerUpdateDto update(long id, SpeakerUpdateDto dto) throws IOException {
-        SpeakerEntity speaker=speakerRepository.findById(id).orElseThrow(()->new RuntimeException("Speaker Not Found"));
+        SpeakerEntity speaker=speakerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("SpeakerService","SpeakerID",id,"SPEAKER_NOT_FOUND"));
         if(dto.getProfile()!=null && !dto.getProfile().isEmpty()) {
             String url=FileUploadUtil.saveFiles("files/profile",dto.getProfile());
             speaker.setProfileUrl(url);
@@ -64,7 +65,7 @@ public class SpeakerService {
         if(dto.getEventId()!=null )
         {
             EventEntity newEvent = eventRepository.findById(dto.getEventId())
-                    .orElseThrow(() -> new RuntimeException("Event Not Found"));
+                    .orElseThrow(() ->  new ResourceNotFoundException("SpeakerService","EventID",dto.getEventId(),"EVENT_ID_NOT_FOUND"));
 
 
             if (speaker.getEvent() != null) {
@@ -101,12 +102,12 @@ public class SpeakerService {
     }
 
     public void delete(long id) {
-        SpeakerEntity speaker=speakerRepository.findById(id).orElseThrow(()->new RuntimeException("Speaker not found"));
+        SpeakerEntity speaker=speakerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("SpeakerService","SpeakerID",id,"SPEAKER_NOT_FOUND"));
         speakerRepository.deleteById(id);
     }
 
     public List<SpeakerResponse> findByEvent(long id) {
-        List<SpeakerEntity> speaker=speakerRepository.findByEventId(id).orElseThrow(()->new RuntimeException("Event ID not found"));
+        List<SpeakerEntity> speaker=speakerRepository.findByEventId(id).orElseThrow(()->new ResourceNotFoundException("SpeakerService","EventId",id,"EVENT_NOT_FOUND"));
         List<SpeakerResponse> responses=speaker.stream().map(response->modelMapper.map(response,SpeakerResponse.class)).toList();
         return responses;
     }

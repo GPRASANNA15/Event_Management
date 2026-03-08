@@ -2,6 +2,10 @@ package com.example.Event_Management.Service;
 
 import com.example.Event_Management.Dto.EventDto;
 import com.example.Event_Management.Entity.EventEntity;
+import com.example.Event_Management.Exception.CategoryNotFoundException;
+import com.example.Event_Management.Exception.ResourceNotFoundException;
+import com.example.Event_Management.Exception.TitleNotFoundException;
+import com.example.Event_Management.Exception.VenueNotFoundException;
 import com.example.Event_Management.Repository.EventRepository;
 import com.example.Event_Management.UpdateDto.EventUpdateDto;
 import jdk.jfr.Event;
@@ -37,7 +41,7 @@ public class EventService {
     }
 
     public EventDto findByEventId(long id) {
-        EventEntity event=eventRepository.findById(id).orElseThrow(()->new RuntimeException("Event ID not found"));
+        EventEntity event=eventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("findByEventID","EventId",id,"EVENT_NOT_FOUND"));
         return modelMapper.map(event, EventDto.class);
     }
 
@@ -70,24 +74,23 @@ public class EventService {
     }
 
     public void delete(long id) {
-        EventEntity event=eventRepository.findById(id).orElseThrow(()->new RuntimeException("Event Id not found"));
+        EventEntity event=eventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("DeleteEvent","EventId",id,"EVENT_NOT_FOUND"));
         eventRepository.deleteById(id);
     }
 
     public EventDto findAllByEventName(String name) {
-        EventEntity entities=eventRepository.findByTitle(name).orElseThrow(()->new RuntimeException("Event Not Found"));
-
+        EventEntity entities=eventRepository.findByTitle(name).orElseThrow(()->new TitleNotFoundException("findAllByEventName","Event Title",name,"EVENT_NOT_FOUND"));
         return modelMapper.map(entities,EventDto.class);
     }
 
     public List<EventDto> findAllByVenues(String venue) {
-        List<EventEntity> entities=eventRepository.findByVenue(venue).orElseThrow(()->new RuntimeException("Event Not fount in the venue"));
+        List<EventEntity> entities=eventRepository.findByVenue(venue).orElseThrow(()->new VenueNotFoundException("findByVenues","Venue",venue,"VENUE_NOT_FOUND"));
         List<EventDto> events=entities.stream().map(event->modelMapper.map(event, EventDto.class)).toList();
         return events;
     }
 
     public List<EventDto> findAllByCategory(String category) {
-        List<EventEntity> entities=eventRepository.findByCategory(category).orElseThrow(()->new RuntimeException("Event Not found in the Category"));
+        List<EventEntity> entities=eventRepository.findByCategory(category).orElseThrow(()->new CategoryNotFoundException("findByCategories","Category",category,"CATEGORY_NOT_FOUND"));
         List<EventDto> events=entities.stream().map(event->modelMapper.map(event, EventDto.class)).toList();
         return events;
     }

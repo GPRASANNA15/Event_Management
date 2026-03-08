@@ -1,12 +1,18 @@
 package com.example.Event_Management.Dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
-public class RegisteredEventUserDto {
+public class RegisteredEventUserDto { //used for returning response
+
     private Long registrationId;
 
     private Long userId;
+
     private String userName;
+
     private String userEmail;
     private Long contactNumber;
 

@@ -1,7 +1,11 @@
 package com.example.Event_Management.Dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AuthDto {
+    @NotBlank(message = "email cannot be empty")
     private String email;
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     public String getEmail() {

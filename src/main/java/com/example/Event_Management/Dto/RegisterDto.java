@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class RegisterDto {
-    @NotNull
+    @NotNull(message = "userId cannot be null")
     private Long userId;
-    @NotNull
+    @NotNull(message = "eventId cannot be null")
     private Long eventId;
 
 
